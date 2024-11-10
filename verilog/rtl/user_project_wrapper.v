@@ -78,11 +78,54 @@ module user_project_wrapper #(
     output [2:0] user_irq
 );
 
-/*--------------------------------------*/
-/* User project is instantiated  here   */
-/*--------------------------------------*/
+    
+    wire csb;
+    wire [3:0] wmask;    
+    wire [31:0] insMemDataM2P;
+    wire [8:0] insMemAddrP2M;
+        
+    
+SLRV SLRV_CORE (
+`ifdef USE_POWER_PINS
+	.vccd1(vccd1),	// User area 1 1.8V power
+	.vssd1(vssd1),	// User area 1 digital ground
+`endif
 
-user_proj_example mprj (
+    .wb_clk_i(wb_clk_i),
+    .reset(la_data_in[0]),
+    .la_data_in(la_data_in[2:1]),
+    .insMemEn(la_data_in[3]),
+    .insMemDataIn(insMemDataM2P),
+    .insMemAddr(insMemAddrP2M),
+    .gp(la_data_out[31:0]),
+    .a7(la_data_out[63:32]),
+    .pc_led(io_out[8]),
+    .pc_led_oeb(io_oeb[8]),
+    .csb(csb),
+    .wmask(wmask)
+
+);
+
+sky130_sram_2kbyte_1rw1r_32x512_8 SLRV_IMEM (
+`ifdef USE_POWER_PINS
+	.vccd1(vccd1),	// User area 1 1.8V power
+	.vssd1(vssd1),	// User area 1 digital ground
+`endif
+
+    .clk0(wb_clk_i),
+    .csb0(csb),
+    .web0(la_data_in[3]),
+    .wmask0(wmask),
+    .addr0(la_data_in[12:4]),
+    .din0(la_data_in[44:13]),
+    
+    .clk1(wb_clk_i),
+    .csb1(csb),
+    .addr1(insMemAddrP2M),
+    .dout1(insMemDataM2P)
+);
+
+scoreboard_top scoreboard (
 `ifdef USE_POWER_PINS
 	.vccd1(vccd1),	// User area 1 1.8V power
 	.vssd1(vssd1),	// User area 1 digital ground
@@ -90,34 +133,54 @@ user_proj_example mprj (
 
     .wb_clk_i(wb_clk_i),
     .wb_rst_i(wb_rst_i),
+    
+    .sb_la_data_out(la_data_out[122:112]),
+    
+    .sb_io_in (io_in[37:34]),
+    .sb_io_out(io_out[33:23]),
+    .sb_io_oeb(io_oeb[33:23])
+);
 
-    // MGMT SoC Wishbone Slave
+s3chip s3chip (
+`ifdef USE_POWER_PINS
+    .vccd1(vccd1),	// User area 1 1.8V power
+    .vssd1(vssd1),	// User area 1 digital ground
+`endif
+    .wb_clk_i  (wb_clk_i),
 
-    .wbs_cyc_i(wbs_cyc_i),
-    .wbs_stb_i(wbs_stb_i),
-    .wbs_we_i(wbs_we_i),
-    .wbs_sel_i(wbs_sel_i),
-    .wbs_adr_i(wbs_adr_i),
-    .wbs_dat_i(wbs_dat_i),
-    .wbs_ack_o(wbs_ack_o),
-    .wbs_dat_o(wbs_dat_o),
+    .la_data_in(la_data_in[58:45]),
+
+    .io_out    (io_out[22:15]),
+    .io_oeb    (io_out[22:15])
+);
+
+SLOPEDETECT SLOPEDETECT (
+`ifdef USE_POWER_PINS
+    .vccd1(vccd1),  // User area 1 1.8V power
+    .vssd1(vssd1),  // User area 1 digital ground
+`endif
+    .wb_clk_i(wb_clk_i),
+    .wb_rst_i(wb_rst_i),
+
+    .io_in (io_in[10:9]),
+    .io_out(io_out[14:11]),
+    .io_oeb(io_oeb[14:11])
+);
+
+macp_top macp_top (
+`ifdef USE_POWER_PINS
+    .vccd1(vccd1),  // User area 1 1.8V power
+    .vssd1(vssd1),  // User area 1 digital ground
+`endif
+
+    .wb_clk_i(wb_clk_i),
+    .wb_rst_i(wb_rst_i),
 
     // Logic Analyzer
 
-    .la_data_in(la_data_in),
-    .la_data_out(la_data_out),
-    .la_oenb (la_oenb),
-
-    // IO Pads
-
-    .io_in ({io_in[37:30],io_in[7:0]}),
-    .io_out({io_out[37:30],io_out[7:0]}),
-    .io_oeb({io_oeb[37:30],io_oeb[7:0]}),
-
-    // IRQ
-    .irq(user_irq)
+    .la_data_in(la_data_in[79:64]),
+    .la_data_out(la_data_out[111:96])
 );
 
-endmodule	// user_project_wrapper
-
+endmodule
 `default_nettype wire

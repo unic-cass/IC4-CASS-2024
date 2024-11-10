@@ -1,0 +1,192 @@
+library (s3chip) {
+  comment                        : "";
+  delay_model                    : table_lookup;
+  simulation                     : false;
+  capacitive_load_unit (1,pF);
+  leakage_power_unit             : 1pW;
+  current_unit                   : "1A";
+  pulling_resistance_unit        : "1kohm";
+  time_unit                      : "1ns";
+  voltage_unit                   : "1v";
+  library_features(report_delay_calculation);
+
+  input_threshold_pct_rise : 50;
+  input_threshold_pct_fall : 50;
+  output_threshold_pct_rise : 50;
+  output_threshold_pct_fall : 50;
+  slew_lower_threshold_pct_rise : 20;
+  slew_lower_threshold_pct_fall : 20;
+  slew_upper_threshold_pct_rise : 80;
+  slew_upper_threshold_pct_fall : 80;
+  slew_derate_from_library : 1.0;
+
+
+  nom_process                    : 1.0;
+  nom_temperature                : 25.0;
+  nom_voltage                    : 1.80;
+
+  type ("io_oeb") {
+    base_type : array;
+    data_type : bit;
+    bit_width : 8;
+    bit_from : 7;
+    bit_to : 0;
+  }
+  type ("io_out") {
+    base_type : array;
+    data_type : bit;
+    bit_width : 8;
+    bit_from : 7;
+    bit_to : 0;
+  }
+  type ("la_data_in") {
+    base_type : array;
+    data_type : bit;
+    bit_width : 14;
+    bit_from : 13;
+    bit_to : 0;
+  }
+
+  cell ("s3chip") {
+    pin("wb_clk_i") {
+      direction : input;
+      capacitance : 0.0177;
+    }
+    bus("io_oeb") {
+      bus_type : io_oeb;
+      direction : output;
+      capacitance : 0.0000;
+    pin("io_oeb[7]") {
+      direction : output;
+      capacitance : 0.0007;
+    }
+    pin("io_oeb[6]") {
+      direction : output;
+      capacitance : 0.0006;
+    }
+    pin("io_oeb[5]") {
+      direction : output;
+      capacitance : 0.0006;
+    }
+    pin("io_oeb[4]") {
+      direction : output;
+      capacitance : 0.0006;
+    }
+    pin("io_oeb[3]") {
+      direction : output;
+      capacitance : 0.0006;
+    }
+    pin("io_oeb[2]") {
+      direction : output;
+      capacitance : 0.0006;
+    }
+    pin("io_oeb[1]") {
+      direction : output;
+      capacitance : 0.0006;
+    }
+    pin("io_oeb[0]") {
+      direction : output;
+      capacitance : 0.0006;
+    }
+    }
+    bus("io_out") {
+      bus_type : io_out;
+      direction : output;
+      capacitance : 0.0000;
+    pin("io_out[7]") {
+      direction : output;
+      capacitance : 0.0007;
+    }
+    pin("io_out[6]") {
+      direction : output;
+      capacitance : 0.0006;
+    }
+    pin("io_out[5]") {
+      direction : output;
+      capacitance : 0.0008;
+    }
+    pin("io_out[4]") {
+      direction : output;
+      capacitance : 0.0010;
+    }
+    pin("io_out[3]") {
+      direction : output;
+      capacitance : 0.0008;
+    }
+    pin("io_out[2]") {
+      direction : output;
+      capacitance : 0.0019;
+    }
+    pin("io_out[1]") {
+      direction : output;
+      capacitance : 0.0013;
+    }
+    pin("io_out[0]") {
+      direction : output;
+      capacitance : 0.0006;
+    }
+    }
+    bus("la_data_in") {
+      bus_type : la_data_in;
+      direction : input;
+      capacitance : 0.0000;
+    pin("la_data_in[13]") {
+      direction : input;
+      capacitance : 0.0032;
+    }
+    pin("la_data_in[12]") {
+      direction : input;
+      capacitance : 0.0032;
+    }
+    pin("la_data_in[11]") {
+      direction : input;
+      capacitance : 0.0030;
+    }
+    pin("la_data_in[10]") {
+      direction : input;
+      capacitance : 0.0030;
+    }
+    pin("la_data_in[9]") {
+      direction : input;
+      capacitance : 0.0030;
+    }
+    pin("la_data_in[8]") {
+      direction : input;
+      capacitance : 0.0030;
+    }
+    pin("la_data_in[7]") {
+      direction : input;
+      capacitance : 0.0030;
+    }
+    pin("la_data_in[6]") {
+      direction : input;
+      capacitance : 0.0030;
+    }
+    pin("la_data_in[5]") {
+      direction : input;
+      capacitance : 0.0030;
+    }
+    pin("la_data_in[4]") {
+      direction : input;
+      capacitance : 0.0030;
+    }
+    pin("la_data_in[3]") {
+      direction : input;
+      capacitance : 0.0030;
+    }
+    pin("la_data_in[2]") {
+      direction : input;
+      capacitance : 0.0033;
+    }
+    pin("la_data_in[1]") {
+      direction : input;
+      capacitance : 0.0031;
+    }
+    pin("la_data_in[0]") {
+      direction : input;
+      capacitance : 0.0032;
+    }
+    }
+  }
+
+}

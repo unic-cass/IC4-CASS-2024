@@ -1,30 +1,84 @@
 {
     "DESIGN_NAME": "user_project_wrapper",
+    "DESIGN_IS_CORE": 1,
     "VERILOG_FILES": [
         "dir::../../verilog/rtl/defines.v",
+        "dir::../../verilog/rtl/user_defines.v",
         "dir::../../verilog/rtl/user_project_wrapper.v"
     ],
-    "ROUTING_CORES": 1,
-    "CLOCK_PERIOD": 25,
+    "ROUTING_CORES": 8,
+    "SYNTH_READ_BLACKBOX_LIB":1,
+    "KLAYOUT_XOR_THREADS": 6,
+    "CLOCK_PERIOD": 100,
     "CLOCK_PORT": "wb_clk_i",
-    "CLOCK_NET": "mprj.clk",
-    "FP_PDN_MACRO_HOOKS": "mprj vccd1 vssd1 vccd1 vssd1",
+    "CLOCK_NET": "wb_clk_i",
+    "FP_PDN_MACRO_HOOKS": "SLRV_CORE vccd1 vssd1 vccd1 vssd1, SLRV_IMEM vccd1 vssd1 vccd1 vssd1, scoreboard vccd1 vssd1 vccd1 vssd1, s3chip vccd1 vssd1 vccd1 vssd1, SLOPEDETECT vccd1 vssd1 vccd1 vssd1, macp_top vccd1 vssd1 vccd1 vssd1",
     "MACRO_PLACEMENT_CFG": "dir::macro.cfg",
     "MAGIC_DEF_LABELS": 0,
     "VERILOG_FILES_BLACKBOX": [
-        "dir::../../verilog/gl/user_proj_example.v"
+        "dir::../../verilog/gl/SLRV.v",
+        "dir::../../verilog/gl/sky130_sram_2kbyte_1rw1r_32x512_8.v",
+        "dir::../../verilog/gl/scoreboard_top.v",
+        "dir::../../verilog/gl/s3chip.v",
+        "dir::../../verilog/gl/SLOPEDETECT.v",
+        "dir::../../verilog/gl/macp_top.v"
+
     ],
-    "EXTRA_LEFS": "dir::../../lef/user_proj_example.lef",
-    "EXTRA_GDS_FILES": "dir::../../gds/user_proj_example.gds",
-    "EXTRA_LIBS": "dir::../../lib/user_proj_example.lib",
+    "EXTRA_LEFS": [
+    	"dir::../../lef/SLRV.lef",
+    	"dir::../../lef/sky130_sram_2kbyte_1rw1r_32x512_8.lef",
+    	"dir::../../lef/scoreboard_top.lef",
+    	"dir::../../lef/s3chip.lef",
+    	"dir::../../lef/SLOPEDETECT.lef",
+    	"dir::../../lef/macp_top.lef"
+    ],
+    "EXTRA_GDS_FILES": [
+    	"dir::../../gds/SLRV.gds",
+    	"dir::../../gds/sky130_sram_2kbyte_1rw1r_32x512_8.gds",
+    	"dir::../../gds/scoreboard_top.gds",
+    	"dir::../../gds/s3chip.gds",
+    	"dir::../../gds/SLOPEDETECT.gds",
+    	"dir::../../gds/macp_top.gds"
+    ],
+    "EXTRA_LIBS": [
+    	"dir::../../lib/SLRV.lib",
+    	"dir::../../lib/sky130_sram_2kbyte_1rw1r_32x512_8_TT_1p8V_25C.lib",
+    	"dir::../../lib/scoreboard_top.lib",
+    	"dir::../../lib/s3chip.lib",
+    	"dir::../../lib/SLOPEDETECT.lib",
+    	"dir::../../lib/macp_top.lib"
+    ],
     "EXTRA_SPEFS": [
-        "user_proj_example", 
-        "dir::../../spef/multicorner/user_proj_example.min.spef", 
-        "dir::../../spef/multicorner/user_proj_example.nom.spef", 
-        "dir::../../spef/multicorner/user_proj_example.max.spef"
+        "SLRV", 
+        "dir::../../spef/multicorner/SLRV.min.spef", 
+        "dir::../../spef/multicorner/SLRV.nom.spef", 
+        "dir::../../spef/multicorner/SLRV.max.spef",
+
+	"scoreboard_top",
+        "dir::../../spef/multicorner/scoreboard_top.min.spef", 
+        "dir::../../spef/multicorner/scoreboard_top.nom.spef", 
+        "dir::../../spef/multicorner/scoreboard_top.max.spef",
+
+	"s3chip",
+        "dir::../../spef/multicorner/s3chip.min.spef", 
+        "dir::../../spef/multicorner/s3chip.nom.spef", 
+        "dir::../../spef/multicorner/s3chip.max.spef",
+
+	"SLOPEDETECT",
+        "dir::../../spef/multicorner/SLOPEDETECT.min.spef", 
+        "dir::../../spef/multicorner/SLOPEDETECT.nom.spef", 
+        "dir::../../spef/multicorner/SLOPEDETECT.max.spef",
+
+        "macp_top", 
+        "dir::../../spef/multicorner/macp_top.min.spef", 
+        "dir::../../spef/multicorner/macp_top.nom.spef", 
+        "dir::../../spef/multicorner/macp_top.max.spef"
     ],
     "BASE_SDC_FILE": "dir::base_user_project_wrapper.sdc",
     "IO_SYNC": 0,
+    "RUN_KLAYOUT_XOR":1,
+    "RUN_MAGIC_DRC":0,
+    "QUIT_ON_MAGIC_DRC": 0,
     "MAX_TRANSITION_CONSTRAINT": 1.5,
     "RUN_LINTER": 0,
     "QUIT_ON_SYNTH_CHECKS": 0,
@@ -37,8 +91,13 @@
     "GLB_RESIZER_TIMING_OPTIMIZATIONS": 0,
     "PL_RESIZER_BUFFER_INPUT_PORTS": 0,
     "FP_PDN_ENABLE_RAILS": 0,
+    "PL_RESIZER_HOLD_SLACK_MARGIN": 0.4,
+    "PL_RESIZER_HOLD_MAX_BUFFER_PERCENT": 80,
+    "GLB_RESIZER_HOLD_SLACK_MARGIN": 0.8,
+    "GLB_RESIZER_HOLD_MAX_BUFFER_PERCENT": 80,
     "GRT_REPAIR_ANTENNAS": 0,
     "RUN_FILL_INSERTION": 0,
+    "GRT_OBS":["met3 1800 340 1900 550"],
     "RUN_TAP_DECAP_INSERTION": 0,
     "FP_PDN_VPITCH": 180,
     "FP_PDN_HPITCH": 180,
@@ -84,20 +143,20 @@
         "DIE_AREA": "0 0 2920 3520",
         "FP_DEF_TEMPLATE": "dir::fixed_dont_change/user_project_wrapper.def",
         "scl::sky130_fd_sc_hd": {
-            "CLOCK_PERIOD": 25
+            "CLOCK_PERIOD": 100
         },
         "scl::sky130_fd_sc_hdll": {
-            "CLOCK_PERIOD": 10
+            "CLOCK_PERIOD": 35
         },
         "scl::sky130_fd_sc_hs": {
-            "CLOCK_PERIOD": 8
+            "CLOCK_PERIOD": 30
         },
         "scl::sky130_fd_sc_ls": {
-            "CLOCK_PERIOD": 10,
+            "CLOCK_PERIOD": 35,
             "SYNTH_MAX_FANOUT": 5
         },
         "scl::sky130_fd_sc_ms": {
-            "CLOCK_PERIOD": 10
+            "CLOCK_PERIOD": 35
         }
     },
     "pdk::gf180mcuC": {
