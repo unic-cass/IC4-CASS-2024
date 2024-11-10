@@ -6,3 +6,8 @@
 The IC4-CASS is one of the five tape-outs done in 2024 as part of the Universalization of IC Design from CASS [(UNIC-CASS)](https://ieee-cas.org/universalization-ic-design-cass-unic-cass) Program.
 The IC4 only includes digital blocks. The Design Teams who were part of it are:
 
+    SLRV: Jazoollee Ahamed
+    SCOREBOARD: Noble G
+    S3CHIP: Sameer Srivastava
+    SLOPEDETECT: Priya K
+    MACP: Sherin
